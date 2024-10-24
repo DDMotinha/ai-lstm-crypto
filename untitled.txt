@@ -1,0 +1,110 @@
+Preciso que crie um modelo de redes neurais para previsão de preço de ativos financeiros com python, plotly, pandas, pandas-ta e caso necessário adicione bibliotecas de redes neurais como keras e tensorflow.
+O csv que o modelo irá ler se chama: "brlbtc.csv" contém as colunas:
+Open time: Horário que iniciou o candle.
+Open, High, Low, Close, Volume, Close time, Quote asset volume, Number of trades, Taker buy base asset volume, Taker buy quote asset volume e Ignore.
+
+Regras:
+ 1 - É necessário converter o campo "Open time" e "Close time" que estão em milisegundos para timestemp, e também criar campos de variação total do candle com High e Low, e variação real com Open e Close.
+ 2 - O modelo deve ter 3 saídas sendo a de comprar, vender e esperar.
+ 3 - O modelo deve administrar os ganhos e as perdas pelo risco determinado pela formula ( Win rate * Average Win) - ( Loss rate * Average Loss)
+ 4 - O script não pode autorizar nenhuma venda, sem que haja uma posição que foi comprada, sendo assim deverá conter uma função que armazene todas as compras e vendas. E antes de tomas uma ação deve verificar se a regra se satisfaz.
+ 5 - Será necessário utilizar a bibliotes do pandas-ta para adicionar alguns indicadores de preço ao modelo pra que ele tome algumas ações baseada nos indicadores, sendo eles:
+    1. Média Móvel Simples (SMA)
+    2. Média Móvel Exponencial (EMA)
+    3. Índice de Força Relativa (RSI)
+    4. MACD (Moving Average Convergence Divergence)
+    5. Bandas de Bollinger
+    6. Parabolic SAR (Stop and Reverse)
+    7. Estocástico
+    8. ADX (Average Directional Index)
+    9. CCI (Commodity Channel Index)
+    10. ATR (Average True Range)
+    11. Williams %R
+    12. Aroon
+    13. Momentum
+    14. Chaikin Oscillator
+    15. TDI (Traders Dynamic Index)
+    16. Fibbonaci Retracement
+    17. SAR (Stop and Reverse)
+    18. Volume Profile
+    19. Pivot Points
+    20. Average True Range (ATR)
+    21. Donchian Channels
+    22. Keltner Channels
+    23. Range Indicator
+    24. Price Rate of Change (ROC)
+    25. Ulcer Index
+    26. Directional Movement Index (DMI)
+    27. Relative Strength Indicator (RSI)
+    28. DeMarker Indicator
+    29. Price Oscillator
+    30. Commodity Channel Index (CCI)
+    31. Ichimoku Cloud
+    32. Supertrend
+    33. VWAP (Volume Weighted Average Price)
+    34. Gann Fan
+    35. Chande Momentum Oscillator
+    36. Hull Moving Average
+    37. MFI (Money Flow Index)
+    38. Elder Ray Index
+    39. Vortex Indicator
+    40. Z-score
+6 - Será necessário utilizar a bibliotes do pandas-ta para adicionar alguns indicadores de volume ao modelo pra que ele tome algumas ações baseada nos indicadores, sendo eles:
+    1. Volume
+    2. Média Móvel do Volume
+    3. On-Balance Volume (OBV)
+    4. Chaikin Money Flow (CMF)
+    5. Accumulation/Distribution (A/D)
+    6. Force Index
+    7. Money Flow Index (MFI)
+    8. Klinger Oscillator
+    9. Volume Rate of Change
+    10. Volume Weighted Average Price (VWAP)
+    11. Negative Volume Index (NVI)
+    12. Positive Volume Index (PVI)
+    13. Accumulation Distribution Line (ADL)
+    14. Ease of Movement (EOM)
+    15. Volume Oscillator
+    16. Aroon Volume Indicator
+    17. Cumulative Volume
+    18. Bullish Volume
+    19. Bearish Volume
+    20. Tick Volume
+    21. Volume Delta
+    22. Volume Profile
+    23. Volatility-Weighted Volume
+    24. Average Daily Volume
+    25. Percentage Volume Oscillator (PVO)
+    26. Total Volume
+    27. Force Index
+    28. Money Flow Ratio
+    29. Volume Momentum
+    30. Volume Spread Analysis (VSA)
+    31. Relative Volume (RVOL)
+    32. Volume Bands
+    33. Volume-weighted moving average (VWMA)
+    34. Volume-Based Moving Average
+    35. Bid-Ask Volume
+    36. Money Flow Index (MFI)
+    37. High-Low Volume Ratio
+    38. Volume-to-Open Interest Ratio
+    39. Cumulative Delta
+    40. Average Volume (AV)
+ 7 - O modelo para cada indicador de preço listado e para cada indicador de volume ele deve gerar um gráfico com o preço do ativos em candles e os adicadores utilizando plotly
+ 8 - O modelo deve me retornar:
+    1. Erro Quadrático Médio (RMSE)
+    2. Erro Absoluto Médio (MAE)
+    3. R² (Coeficiente de Determinação)
+    4. Erro Percentual Absoluto Médio (MAPE)
+    5. Acurácia
+    6. Precisão
+    7. Recall
+    8. F1-Score
+    9. Matriz de Confusão
+    10. Curva ROC
+    11. Curva de Precisão-Recall
+    12. Perda (Loss)
+    13. Entropia Cruzada
+9 - O modelo deve conter regras de dropout, L1 e L2. Para que não haja overfitting.
+11 - O modelo deve retornar todas as compras e vendas nas posições que ele tomou a decisão, e também um gráfico para que vizualize.
+12 - É necessário que o modelo seja recompensado caso haja lucro.
