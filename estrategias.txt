@@ -1,0 +1,105 @@
+##Indicadores que eu quero testar
+#df['sma'] = df.ta.sma(length=50)
+#df['ema'] = df.ta.ema(length=20)
+#df[['macd', 'macd_signal', 'macd_hist']] = df.ta.macd()
+##df['psar'] = df.ta.psar()
+#df['rsi'] = ta.rsi(df['CLOSE'], length=20)
+##df[['bb_upper', 'bb_middle', 'bb_lower']] = ta.bbands(df['CLOSE'], length=20)
+#df['atr'] = ta.atr(df['HIGH'], df['LOW'], df['CLOSE'], length=20)
+#df['obv'] = ta.obv(df['CLOSE'], df['VOLUME'])
+##df['vwap'] = df.ta.vwap()
+#df['cmf'] = ta.cmf(df['HIGH'], df['LOW'], df['CLOSE'], df['VOLUME'])
+
+# Sinal de Compra
+signal_buy = (
+    (df['ema'] > df['sma']) &
+    (df['macd'] > df['macd_signal']) &
+    (df['rsi'] > 30) &
+    (ta.increasing(df['obv'])) &
+    (ta.increasing(df['cmf']))
+)
+
+# Sinal de Venda (inicial, com base nos indicadores)
+signal_sell = (
+    (df['ema'] < df['sma']) &
+    (df['macd'] < df['macd_signal']) &
+    (df['rsi'] < 70) &
+    (ta.decreasing(df['obv'])) &
+    (ta.decreasing(df['cmf']))
+)
+
+
+RMSE: 0.865801726860204
+MAE: 0.4607390513598197
+R²: -0.1240535324443659
+Acurácia: 0.6836977380773261
+Precisão: 0.6822979563836368
+Recall: 0.6836977380773261
+F1-Score: 0.6694040743189761
+Matriz de Confusão:
+[[ 55825  36224  33980]
+ [  7822 116617   1757]
+ [ 20738  19306  86568]]
+Média da Precisão: 0.7269103226767939
+
+Motivo de n uso: indicadores ruins
+______________________________________________________________________________
+
+
+
+
+
+
+
+
+entrada_tendencia_alta = ((ta.increasing(df['stoch_k']) & ta.increasing(df['stoch_d'])) 
+& ((df['stoch_k'] > 70) & (df['stoch_k'].shift(3) >= 80)) 
+& (df['stoch_d'] > 70) & (df['stoch_d'].shift(3) >= 80)
+& (ta.increasing(df['CLOSE']) & ta.increasing(df['ema_50'])) 
+& (ta.crossover(df['CLOSE'], df['ema_50']))
+& (ta.increasing(df['OBV']))) 
+
+                          
+entrada_tendencia_baixa =((ta.decreasing(df['stoch_k']) & ta.decreasing(df['stoch_d'])) 
+& ((df['stoch_k'] < 30) & (df['stoch_k'].shift(3) <= 20)) 
+& (df['stoch_d'] < 30) & (df['stoch_d'].shift(3) <= 20)
+& (ta.decreasing(df['CLOSE']) & ta.decreasing(df['ema_50'])) 
+& (ta.crossunder(df['CLOSE'], df['ema_50']))
+& (ta.decreasing(df['OBV'])))
+
+entrada = entrada_tendencia_alta#(entrada_tendencia_alta | entrada_tendencia_baixa)
+
+
+
+saida_tendencia_alta = ((ta.decreasing(df['stoch_k']) & ta.decreasing(df['stoch_d'])) 
+& ((df['stoch_k'] < 60) & (df['stoch_k'].shift(3) <= 50)) 
+& (df['stoch_d'] < 60) & (df['stoch_d'].shift(3) <= 50)
+& (ta.decreasing(df['CLOSE']) & ta.decreasing(df['ema_50'])) 
+& (ta.crossover(df['CLOSE'], df['ema_50']))
+& (ta.decreasing(df['OBV'])))
+
+saida_tendencia_baixa  = ((ta.increasing(df['stoch_k']) & ta.increasing(df['stoch_d'])) 
+& ((df['stoch_k'] > 50) & (df['stoch_k'].shift(3) >= 60)) 
+& (df['stoch_d'] > 50) & (df['stoch_d'].shift(3) >= 60)
+& (ta.increasing(df['CLOSE']) & ta.increasing(df['ema_50'])) 
+& (ta.crossunder(df['CLOSE'], df['ema_50']))
+& (ta.increasing(df['OBV'])))
+
+saida = saida_tendencia_alta#(saida_tendencia_alta | saida_tendencia_baixa)
+
+RMSE: 0.3808366069968958
+MAE: 0.07864683777498781
+R²: 0.7826899080527389
+Acurácia: 0.9545480039519724
+Precisão: 0.9574817081959764
+Recall: 0.9545480039519724
+F1-Score: 0.9538324467551824
+Matriz de Confusão:
+[[67143  2809  7419]
+ [   32 77055     0]
+ [  275     0 77050]]
+Média da Precisão: 0.980369080785079
+
+
+Motivo: backtest ruim, modelo insustentável
+___________________________________________________________________________
